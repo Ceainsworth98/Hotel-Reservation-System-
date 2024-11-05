@@ -1,0 +1,147 @@
+//Carissa Ainsworth
+//Hotel Project 1
+//10/24/2021
+
+#include <iostream>
+
+using namespace std;
+
+class Hotel
+{
+    public:
+        int Total_rooms = 122;
+        int court_room=70; //amount room courtyard
+        int sce_room=35; //amount room scenic
+        int suite=15; //amount deluxe suite
+        int penthouse=2; //amount penthouse
+        
+        void getTotal()
+        {
+            cout<<"\nTotal Rooms remaining: "<<Total_rooms<<"/122"<<endl<<endl;
+            cout<<"Room Type                      Rooms left"<<endl;
+            cout<<"-------------------------------------------"<<endl;
+            cout<<"Standard Room, Courtyard        "<<court_room<<"/70"<<endl;
+            cout<<"Standard Room, Scenic           "<<sce_room<<"/35"<<endl;
+            cout<<"Deluxe Suite                    "<<suite<<"/15"<<endl;
+            cout<<"Penthouse                        "<<penthouse<<"/2"<<endl;
+        }
+};
+
+class Cost: public Hotel
+{
+    public:
+        double cost_court=125; //cost of courtyard per night
+        double cost_sce=145; //cost of scenic per night
+        double cost_suite=350; //cost of suite per night
+        double cost_pent=1135; //cost of penthouse per night
+        double Dayincome=0;
+
+        void getTotal()
+        {
+            cout<<"\nTotal income for the day: $ "<<Dayincome;
+        }
+        
+        void booking()
+        {
+            int roomtype;
+            do
+            {
+                cout<<"Total Rooms: 122\n\n";
+                cout<<"Choice  Type                       Cost per night    Rooms available\n";
+                cout<<"-----------------------------------------------------------------------\n";
+                cout<<"(1)     Standard Room, Courtyard       $125             "<<court_room<<endl;
+                cout<<"(2)     Standard Room, Scenic          $145             "<<sce_room<<endl;
+                cout<<"(3)     Deluxe Suite                   $350             "<<suite<<endl;
+                cout<<"(4)     Penthouse                     $1135              "<<penthouse<<endl;
+    
+                cout<<"\nPut corosponding number of the room type to book room: ";
+                cin>>roomtype;
+    
+                switch (roomtype)//deciding the room type to book
+                {
+                    case 1: //Courtyard 
+                    {
+                        Hotel::court_room--;
+                        Dayincome+=cost_court;
+                        Hotel::Total_rooms--;
+                        break;
+                    }
+                    case 2: //Scenic
+                    {
+                        Hotel::sce_room--;
+                        Dayincome+=cost_sce;
+                        Hotel::Total_rooms--;
+                        break;
+                    }
+                    case 3: //Suite
+                    {
+                        Hotel::suite--;
+                        Dayincome+=cost_suite;
+                        Hotel::Total_rooms--;
+                        break;
+                    }
+                    case 4: //Penthouse
+                    {
+                        Hotel::penthouse--;
+                        Dayincome+=cost_pent;
+                        Hotel::Total_rooms--;
+                        break;
+                    }
+                    default:
+                    {
+                        cout<<"\nPlease put in a appropriate selection.\n";
+                    }
+                }
+            }while (roomtype>4||roomtype==0);
+        }
+};
+
+
+int main()
+{
+    char user;
+    int menu;
+    Cost r;
+    cout<<"Hotel Booking System: Main Menu\n\n";
+    do
+    {
+        do 
+        {
+            cout<<"(1) Book a Room\n";
+            cout<<"(2) See room availability to total rooms\n";
+            cout<<"(3) Total Income for the Day\n";
+            cout<<"\nPlease make a selection from the menu: ";
+            cin>>menu;
+            switch (menu)
+            {
+                case 1: //Book a room 
+                {
+                    r.booking();
+                    break;
+                }
+                case 2: //see rooms available compared to total
+                {
+                    r.Hotel::getTotal();
+                    break;
+                }
+                case 3://Total net income for the day
+                {
+                    r.getTotal();
+                    break;
+                }
+                default:
+                {
+                    cout<<"\nPlease make a selection 1-3.\n";
+                }
+            }
+        }while (menu>3 ||menu==0);
+        
+        do
+        {
+            cout<<"\n\nWould you like to go back to main menu? (Y/N)";
+            cin>>user;
+        } while (user !='Y' && user!='N' && user!='y' && user!='n');
+    }while(user=='Y'||user=='y');
+
+    return 0;
+}
